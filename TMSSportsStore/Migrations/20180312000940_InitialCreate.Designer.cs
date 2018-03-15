@@ -9,7 +9,7 @@ using TMSSportsStore.Models;
 
 namespace TMSSportsStore.Migrations
 {
-    [DbContext(typeof(ApplicationDBContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20180312000940_InitialCreate")]
     partial class InitialCreate
     {

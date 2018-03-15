@@ -21,7 +21,7 @@ namespace TMSSportsStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlite("Data Source=TMSSportsStore.db"));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration["Data:SportStoreProducts:ConnectionString"]));
             services.AddTransient<IProductRepository, EFProductRepository>();
             //services.AddTransient<IProductRepository, FakeProductRepository>();
             services.AddMvc();

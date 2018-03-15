@@ -6,12 +6,12 @@ namespace TMSSportsStore.Models
 {
     public class EFProductRepository : IProductRepository
     {
-        public EFProductRepository(ApplicationDBContext ctx)
+        public EFProductRepository(ApplicationDbContext ctx)
         {
             context = ctx;
         }
 
         public IQueryable<Product> Products => context.Products;
-        private ApplicationDBContext context;
+        private ApplicationDbContext context;
     }
 }
