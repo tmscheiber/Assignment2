@@ -21,5 +21,7 @@ Global
 		{81F77301-A5B5-4753-9244-AE9199D5E702}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81F77301-A5B5-4753-9244-AE9199D5E702}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81F77301-A5B5-4753-9244-AE9199D5E702}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9F3F818-5F3B-45C1-865B-FB6C86120769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9F3F818-5F3B-45C1-865B-FB6C86120769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
