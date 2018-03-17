@@ -12,12 +12,13 @@ namespace TMSSportsStore.Models
         }
         public ApplicationDbContext()
         {
-            
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=TMSSportsStore.db");
         }
-       public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }

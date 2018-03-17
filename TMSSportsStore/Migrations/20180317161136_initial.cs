@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TMSSportsStore.Migrations
 {
-    public partial class newtables : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

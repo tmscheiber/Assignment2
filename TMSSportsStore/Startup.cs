@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TMSSportsStore.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace TMSSportsStore
 {
@@ -22,9 +23,19 @@ namespace TMSSportsStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration["Data:SportStoreProducts:ConnectionString"]));
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlite(Configuration["Data:SportStoreIdentity:ConnectionString"]));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddTransient<IProductRepository, EFProductRepository>();
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IOrderRepository, EFOrderRepository>();
             //services.AddTransient<IProductRepository, FakeProductRepository>();
             services.AddMvc();
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +47,8 @@ namespace TMSSportsStore
             }
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            app.UseSession();
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -61,6 +74,7 @@ namespace TMSSportsStore
 
             });
             SeedData.EnsurePopulated(app);
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }

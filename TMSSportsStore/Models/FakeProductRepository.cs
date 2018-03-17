@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TMSSportsStore.Models
 {
-    public class FakeProductRepository : IProductRepository
+    public class FakeProductRepository //: IProductRepository
     {
         public FakeProductRepository()
         {
