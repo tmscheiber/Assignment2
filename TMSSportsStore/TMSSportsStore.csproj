@@ -31,6 +31,7 @@
         <Folder Include="wwwroot\lib\jquery.validation.unobtrusive\dist\" />
         <Folder Include="wwwroot\lib\jquery.validation\" />
         <Folder Include="Views\Account\" />
+        <Folder Include="Views\Error\" />
     </ItemGroup>
     <ItemGroup>
         <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
