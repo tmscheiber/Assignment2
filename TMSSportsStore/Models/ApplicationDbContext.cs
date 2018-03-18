@@ -1,24 +1,26 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TMSSportsStore.Models
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-        public ApplicationDbContext()
-        {
 
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=TMSSportsStore.db");
-        }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Product>().HasKey(EntityState => EntityState.ProductID).HasName("PK_ProductID");
+        //    modelBuilder.Entity<Order>().HasKey(EntityState => EntityState.OrderID).HasName("PK_OrderID");
+        //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlite("Data Source=TMSSportsStore.db"); //Configuration["Data:SportStoreProducts:ConnectionString"]);
+        //}
     }
 }

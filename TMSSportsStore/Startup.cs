@@ -22,8 +22,10 @@ namespace TMSSportsStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration["Data:SportStoreProducts:ConnectionString"]));
-            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlite(Configuration["Data:SportStoreIdentity:ConnectionString"]));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration["Data:SportStoreIdentity:ConnectionString"]));
+ //           services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration["Data:SportStoreProducts:ConnectionString"]));
+ //           services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlite(Configuration["Data:SportStoreIdentity:ConnectionString"]));
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();

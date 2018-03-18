@@ -45,4 +45,10 @@
         <PackageReference Include="popper.js" Version="1.14.1" />
         <PackageReference Include="jQuery.Validation" Version="1.17.0" />
     </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="Migrations\20180317161136_initial.Designer.cs" />
+      <Compile Remove="Migrations\20180317161136_initial.cs" />
+      <Compile Remove="Migrations\AppIdentityDb\20180317213327_Initial.cs" />
+      <Compile Remove="Migrations\AppIdentityDb\20180317213327_Initial.Designer.cs" />
+    </ItemGroup>
 </Project>
