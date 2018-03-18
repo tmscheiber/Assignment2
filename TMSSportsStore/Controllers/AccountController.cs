@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TMSSportsStore.Models.ViewModels;
+using TMSSportsStore.Models;
 
 namespace TMSSportsStore.Controllers
 {
@@ -13,7 +14,8 @@ namespace TMSSportsStore.Controllers
         {
             userManager = userMgr;
             signInManager = signInMgr;
-        }
+            IdentitySeedData.EnsurePopulated(userMgr).Wait();
+       }
 
         [AllowAnonymous]
         public ViewResult Login(string returnUrl)

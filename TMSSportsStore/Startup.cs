@@ -41,11 +41,12 @@ namespace TMSSportsStore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePages();
+            } else {
+                app.UseExceptionHandler("/Error");
             }
-            app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession();
             app.UseAuthentication();
@@ -73,8 +74,8 @@ namespace TMSSportsStore
                 routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
 
             });
-            SeedData.EnsurePopulated(app);
-            IdentitySeedData.EnsurePopulated(app);
+            //SeedData.EnsurePopulated(app);
+            //IdentitySeedData.EnsurePopulated(app);
         }
     }
 }
