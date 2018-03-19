@@ -8,7 +8,6 @@
             </span>
         </h4>
     </div>
-    <div class="card-text p-1">@Model.Description</div>
     <form id="@Model.ProductID" asp-action="AddToCart"
             asp-controller="Cart" method="post">
         <input type="hidden" asp-for="ProductID" />
