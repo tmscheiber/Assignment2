@@ -16,8 +16,20 @@
     <Content Remove="wwwroot\lib\bootstrap\.bower.json" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Remove="wwwroot\lib\bootstrap\.DS_Store" />
+    <Content Remove="wwwroot\lib\fontawesome\.bower.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+    <None Remove="FontAwesome.4.7.0\Content\Content\font-awesome.css" />
+    <None Remove="bootstrap.4.0.0\content\Content\bootstrap.css" />
+    <None Remove="bootstrap.4.0.0\content\Content\bootstrap.css.map" />
+    <None Remove="bootstrap.4.0.0\content\Content\bootstrap.min.css" />
+    <None Remove="bootstrap.4.0.0\bootstrap.4.0.0.nupkg" />
+    <None Remove="FontAwesome.4.7.0\Content\Content\font-awesome.css" />
+    <None Remove="popper.js.1.12.9\content\Scripts\esm\popper.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 </Project>
