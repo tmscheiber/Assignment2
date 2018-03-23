@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet"
+          asp-href-include="/lib/bootstrap/dist/**/*.min.css"
+          asp-href-exclude="**/*-reboot*,**/*-grid*" />
+    <link rel="stylesheet" asp-href-include="/lib/fontawesome/css/*.css" />
+    <title> </title>
+</head>
+<body>
+    <div class="navbar navbar-inverse bg-inverse" role="navigation"  >
+        <div class="row">
+            <a class="col navbar-brand" href="#">GROUP 1: ISM6225 Assignment 4</a>
+            <div class="col-4 text-right">
+              
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row m-1 p-1">
+        <div id="categories" class="col-3">
+            <ul>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Index","Home")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 1</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Question2","ProjectResource")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 2</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Question3","Project")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 3</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Question4","ProjectResource")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 4</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Question5","Resource")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 5</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Index","Home")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 6</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Question7","ProjectResource")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 7</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Question8","Client")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 8</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Question9","Resource")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 9</a></li>
+                <li class=" btn btn-block btn-primary"><a href="@Url.Action("Question10","ProjectResource")" role="tab" data-toggle="tab" style="color:white; text-decoration:none;">Question 10</a></li>
+           </ul>
+           
+        </div>
+        <div class="col-9">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

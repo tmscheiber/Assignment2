@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Group1_Assn4.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Group1_Assn4.Controllers
+{
+    public class ResourceController : Controller
+    {
+        private IResourceRepository repository;
+        public ResourceController(IResourceRepository repo)
+        {
+            repository = repo;
+        }
+        public ViewResult List() => View(repository.Resources);
+
+
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public ViewResult Question5()
+        {
+            ViewData["LINQ"] = "repository.Resources.GroupBy(p => p.Role).Where(p => p.Count() > 1).Select(p => p.First());";
+            //5.	List down all the roles available?   
+
+            var Quest = repository.Resources.GroupBy(p => p.Role).Where(p => p.Count() > 1).Select(p => p.First());
+
+            
+
+            return View(Quest.ToList());
+        }// end of question 5
+
+
+        public ViewResult Question9()
+        {
+            ViewData["LINQ"] = @"repository.Resources.Where(p => p.Role ==  ""Lead"" || p.Role == ""Senior Manager"" || p.Role == ""Manager"").OrderByDescending(p => p.ServiceYears);";
+            //9.	List out resources with role as Lead or Manager or Senior Manager in descending order of number of years worked for the company?  
+
+            var Quest = repository.Resources.Where(p => p.Role == "Lead" || p.Role == "Senior Manager" || p.Role == "Manager").OrderByDescending(p => p.ServiceYears);
+
+
+
+            return View(Quest.ToList());
+        }// end of question 9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+}

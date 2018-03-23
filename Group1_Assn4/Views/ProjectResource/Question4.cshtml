@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Group1_Assn4.Models.ProjectResource>
+
+@{
+    ViewData["Title"] = "Question 4";
+}
+<p>4.	How many people are working on more than one projects?  </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Count
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+       
+            <tr>
+                <td>
+                    @ViewData["Answer"]
+                </td>
+
+            </tr>
+       
+    </tbody>
+</table>

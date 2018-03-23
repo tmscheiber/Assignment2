@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Group1_Assn4.Models.ProjectResource>
+
+@{
+    ViewData["Title"] = "Question 2";
+}
+<p>2.	Which are the 4 projects which used the most number of people (resources)? </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Project.ProjectName)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.ProjectName)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

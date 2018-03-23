@@ -30,10 +30,8 @@ namespace SportsStore
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IOrderRepository, EFOrderRepository>();
             //services.AddTransient<IProductRepository, FakeProductRepository>();
             services.AddMvc();
             services.AddMemoryCache();

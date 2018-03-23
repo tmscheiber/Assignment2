@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Group1_Assn4.Models.Client>
+
+@{
+    ViewData["Title"] = "Question 7";
+}
+<p>8.	List out all the clients along with details which are in South American states like Texas, Florida, etc?    </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientName)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClientName)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

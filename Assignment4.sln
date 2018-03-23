@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMSSportsStore", "TMSSports
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMSSPortsStoreUnitTest", "TMSSPortsStoreUnitTest\TMSSPortsStoreUnitTest.csproj", "{E9F3F818-5F3B-45C1-865B-FB6C86120769}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqQueries", "LinqQueries\LinqQueries.csproj", "{0F502D8D-CD82-4A10-8E6B-8CC25864A610}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group1_Assn4", "Group1_Assn4\Group1_Assn4.csproj", "{F9C30ECA-A9A0-452C-B41B-6EC48E4325EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +28,14 @@ Global
 		{81F77301-A5B5-4753-9244-AE9199D5E702}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9F3F818-5F3B-45C1-865B-FB6C86120769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9F3F818-5F3B-45C1-865B-FB6C86120769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F502D8D-CD82-4A10-8E6B-8CC25864A610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F502D8D-CD82-4A10-8E6B-8CC25864A610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F502D8D-CD82-4A10-8E6B-8CC25864A610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F502D8D-CD82-4A10-8E6B-8CC25864A610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C30ECA-A9A0-452C-B41B-6EC48E4325EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C30ECA-A9A0-452C-B41B-6EC48E4325EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C30ECA-A9A0-452C-B41B-6EC48E4325EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C30ECA-A9A0-452C-B41B-6EC48E4325EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

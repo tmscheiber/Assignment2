@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Group1_Assn4.Models.Resource>
+
+@{
+    ViewData["Title"] = "Question 9";
+}
+<p>9.	List out resources with role as Lead or Manager or Senior Manager in descending order of number of years worked for the company?   </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ResourceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceYears)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResourceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceYears)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>

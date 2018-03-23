@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Group1_Assn4.Models.Project>
+
+@{
+    ViewData["Title"] = "Question 3";
+}
+<p>3.	Which are the top 3 clients with most number of projects this year? </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Client.ClientName)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.ClientName)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
