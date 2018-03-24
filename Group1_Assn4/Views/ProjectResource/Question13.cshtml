@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Group1_Assn4.Models.ProjectResource>
+
+@{
+    ViewData["Title"] = "Question 13";
+}
+<p>13.	List client with most number of resources working as Software Consultant in their ongoing projects?  </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Project.Client.ClientName)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.Client.ClientName)
+            </td>
+  
+
+        </tr>
+        }
+    </tbody>
+</table>

@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Question 10";
 }
-<p>10.	List client with most number of resources working as Software Consultant in their ongoing projects?  </p>
+<p>10.	Who are top 5 resources who have worked on more than 10 projects?   </p>
 <div class="row alert-info" style="padding:5px">
     @ViewData["LINQ"]
 </div>
@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Project.Client.ClientName)
+                @Html.DisplayNameFor(model => model.Resource.ResourceName)
             </th>
 
         </tr>
@@ -20,13 +20,12 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Project.Client.ClientName)
-            </td>
-  
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Resource.ResourceName))
+                </td>
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

@@ -1,0 +1,37 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Question 5";
+}
+<p>5.	Which are the 4 projects which used the most number of people (resources)? </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Project Name
+            </th>
+            <th>
+                Resource Count
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (var idx = 0; idx < Model.Count; idx++)
+        {
+            <tr>
+                <td>
+                    @Model[idx].ProjectName
+                </td>
+                <td>
+                    @Model[idx].ResourceCount
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

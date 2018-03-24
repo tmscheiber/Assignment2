@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Group1_Assn4.Models.Client>
+﻿@model IEnumerable<Group1_Assn4.Models.Project>
 
 @{
-    ViewData["Title"] = "Question 7";
+    ViewData["Title"] = "Question 6";
 }
-<p>8.	List out all the clients along with details which are in South American states like Texas, Florida, etc?    </p>
+<p>6.	Which are the top 3 clients with most number of projects this year? </p>
 <div class="row alert-info" style="padding:5px">
     @ViewData["LINQ"]
 </div>
@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ClientName)
+                @Html.DisplayNameFor(model => model.Client.ClientName)
             </th>
 
         </tr>
@@ -22,7 +22,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ClientName)
+                    @Html.DisplayFor(modelItem => item.Client.ClientName)
                 </td>
 
             </tr>

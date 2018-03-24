@@ -3,10 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 
 namespace Group1_Assn4.Controllers
 {
+    public class Q4Result
+    {
+        public string ClientName { get; set; }
+        public decimal Revenue { get; set; }
+    }
     public class ProjectController : Controller
     {
         private IProjectRepository repository;
@@ -14,29 +20,52 @@ namespace Group1_Assn4.Controllers
         {
             repository = repo;
         }
-         public ViewResult List() => View(repository.Projects.Include(p=>p.Client));
+        public ViewResult List() => View(repository.Projects.Include(p=>p.Client));
 
-   
-
-        public ViewResult Question3()
+        public ViewResult Question4()
         {
-            ViewData["LINQ"] = "repository.Projects.Include(p=>p.Client).GroupBy(p => p.Client.ClientName)" +
-                                ".OrderByDescending(p=>p.Count()).Select(p=>p.First())" +
-                                ".Where(p => p.KickOffDate.Year < DateTime.Today.Year && p.DeliveryDate.Year > DateTime.Today.Year)" +
-                                ".Take(3); ";
-            //3.	Which are the top 3 clients with most number of projects this year? 
+            ViewData["LINQ"] =
+                "var Q4 = repository.Projects"
+                + ".Include(p => p.Client)"
+                + ".GroupBy(p => p.Client.ClientName)"
+                + ".Select("
+                + "g => new Q4Result"
+                + "{ClientName = g.First().Client.ClientName,"
+                + "Revenue = g.Sum(s => s.Revenue)"
+                + "}).OrderBy(g => g.Revenue).Take(4);";
+            //4. Who are the 4 most profitable clients till date?
+            var Q4 = repository.Projects
+                                   .Include(p => p.Client)
+                                   .GroupBy(p => p.Client.ClientName)
+                                   .Select(
+                                       g => new Q4Result
+                                       {
+                                           ClientName = g.First().Client.ClientName,
+                                           Revenue = g.Sum(s => s.Revenue)
+                                       }).OrderBy(g => g.Revenue).Take(4);
 
-            var Quest3 = repository.Projects.Include(p=>p.Client)
+             return View(Q4.ToList());
+        }
+        public ViewResult Question6()
+        {
+            ViewData["LINQ"] = "repository.Projects"
+                + ".Include(p=>p.Client).GroupBy(p => p.Client.ClientName)"
+                + ".OrderByDescending(p=>p.Count())"
+                + ".Select(p=>p.First())"
+                + ".Where(p => p.KickOffDate.Year < DateTime.Today.Year && p.DeliveryDate.Year > DateTime.Today.Year)"
+                + ".Take(3); ";
+            //6.	Which are the top 3 clients with most number of projects this year? 
+
+            var Quest6 = repository.Projects.Include(p=>p.Client)
                                     .GroupBy(p => p.Client.ClientName) 
                                     .OrderByDescending(p=>p.Count())
                                     .Select(p=>p.First())
                                     .Where(p => p.KickOffDate.Year < DateTime.Today.Year && p.DeliveryDate.Year > DateTime.Today.Year)
                                     .Take(3);
 
-            return View(Quest3.ToList());
-        }// end of question 3
+            return View(Quest6.ToList());
+        }// end of question 6
          
-
     }// end class
 }// end namespace
 

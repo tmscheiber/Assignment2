@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Group1_Assn4.Models.ProjectResource>
+
+@{
+    ViewData["Title"] = "Question 9";
+}
+<p>9. List all the ongoing projects names along with their expected delivery date , resource allocations and client names? </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Project.Client.ClientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Project.ProjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Project.DeliveryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resource.ResourceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AllocatedHours)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.Client.ClientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.ProjectName)
+            </td>
+            <td data-date-format"MMM DD, YYY">
+                @Html.DisplayFor(modelItem => item.Project.DeliveryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Resource.ResourceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllocatedHours)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>

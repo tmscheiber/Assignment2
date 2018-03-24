@@ -19,7 +19,7 @@ namespace Group1_Assn4.Controllers
         {
             return View();
         }
-        public ViewResult Question8()
+        public ViewResult Question11()
         {
             ViewData["LINQ"] = @"repository.Clients.Where(p => p.Region == ""South"").GroupBy(p => p.ClientName).Select(p => p.First());";
            // 8.List out all the clients along with details which are in South American states like Texas, Florida, etc?
@@ -29,7 +29,7 @@ namespace Group1_Assn4.Controllers
 
 
             return View(Quest.ToList());
-        }// end of question 8
+        }// end of question 11
 
     
 

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Group1_Assn4.Views.Project
+namespace Group1_Assn4.Views.ProjectResource
 {
-    public class Question7Model : PageModel
+    public class Question13Model : PageModel
     {
         public void OnGet()
         {

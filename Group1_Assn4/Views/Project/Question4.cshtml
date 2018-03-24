@@ -1,0 +1,37 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Question 4";
+}
+<p>4.	Which are the top 3 clients with most number of projects this year? </p>
+<div class="row alert-info" style="padding:5px">
+    @ViewData["LINQ"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ClientName
+            </th>
+            <th>
+                Revenue
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (var idx = 0; idx < Model.Count; idx++)
+        {
+            <tr>
+                <td>
+                    @Model[idx].ClientName
+                </td>
+                <td>
+                    @Model[idx].Revenue
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

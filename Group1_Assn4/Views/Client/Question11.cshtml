@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Group1_Assn4.Models.ProjectResource>
+﻿@model IEnumerable<Group1_Assn4.Models.Client>
 
 @{
-    ViewData["Title"] = "Question 2";
+    ViewData["Title"] = "Question 11";
 }
-<p>2.	Which are the 4 projects which used the most number of people (resources)? </p>
+<p>11.	List out all the clients along with details which are in South American states like Texas, Florida, etc?    </p>
 <div class="row alert-info" style="padding:5px">
     @ViewData["LINQ"]
 </div>
@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Project.ProjectName)
+                @Html.DisplayNameFor(model => model.ClientName)
             </th>
 
         </tr>
@@ -22,7 +22,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Project.ProjectName)
+                    @Html.DisplayFor(modelItem => item.ClientName)
                 </td>
 
             </tr>

@@ -19,10 +19,12 @@ namespace Group1_Assn4.Models
 
     
         [Display(Name = "Kick Off Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTime KickOffDate { get; set; }
 
   
         [Display(Name = "Delivery Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTime DeliveryDate { get; set; }
 
  
