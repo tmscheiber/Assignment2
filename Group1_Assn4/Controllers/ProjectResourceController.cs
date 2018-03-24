@@ -15,6 +15,12 @@ namespace Group1_Assn4.Controllers
         public int ResourceCount { get; set; }
     }
 
+    public class Q13Result
+    {
+        public string ClientName { get; set; }
+        public int ResourceCount { get; set; }
+    }
+
     public class ProjectResourceController : Controller
     {
 
@@ -34,14 +40,14 @@ namespace Group1_Assn4.Controllers
         public ViewResult Question5()
         {
             ViewData["LINQ"] =
-                "var Q5 = repository.ProjectResources" +
-                    ".Include(p => p.Project)" +
-                    ".GroupBy(p => p.Project.ProjectName)" +
-                    ".OrderByDescending(p => p.Count())" +
-                    ".Take(4)" +
-                    ".Select(g => new Q5Result" +
-                "{ProjectName = g.First().Project.ProjectName," +
-                "ResourceCount = g.Count()});";
+                "var Q5 = repository.ProjectResources"
+                + ".Include(p => p.Project)"
+                + ".GroupBy(p => p.Project.ProjectName)"
+                + ".OrderByDescending(p => p.Count())"
+                + ".Take(4)"
+                + ".Select(p => new Q5Result"
+                + "{ProjectName = p.First().Project.ProjectName,"
+                + "ResourceCount = p.Count()});";
             //5.	Which are the 4 projects which used the most number of people (resources)?  
 
             var Q5 = repository.ProjectResources
@@ -49,10 +55,10 @@ namespace Group1_Assn4.Controllers
                                .GroupBy(p => p.Project.ProjectName)
                                .OrderByDescending(p => p.Count())
                                .Take(4)
-                               .Select(g => new Q5Result
+                               .Select(p => new Q5Result
                                {
-                                   ProjectName = g.First().Project.ProjectName,
-                                   ResourceCount = g.Count()
+                                   ProjectName = p.First().Project.ProjectName,
+                                   ResourceCount = p.Count()
                                });
             return View(Q5.ToList());
         }// end of question 5
@@ -73,11 +79,14 @@ namespace Group1_Assn4.Controllers
         public ViewResult Question7()
         {
             ViewData["LINQ"] =
-                "<interim result = repository.ProjectResources"
+                "var Quest7Detail = repository.ProjectResources"
                 + ".Include(p => p.Resource)"
                 + ".GroupBy(p => p.Resource.ResourceID)"
                 + ".Where(p => p.Count() > 1);"
-                + "ResourceCount = (interim result).Count();";
+                + "ResourceCount = (interim result).Count();"
+                + "dynamic expando = new ExpandoObject();"
+                + "var Quest7 = expando as IDictionary<string, object>;"
+                + "Quest7.Add(\"ResourceCount\", Quest7Detail.Count());";
             //7.    How many people are working on more than one projects?
 
             var Quest7Detail = repository.ProjectResources
@@ -134,25 +143,29 @@ namespace Group1_Assn4.Controllers
 
         public ViewResult Question13()
         {
-            ViewData["LINQ"] = "repository.ProjectResources.Include(p => p.Resource).Include(p => p.Project.Client).Include(p => p.Project)" +
-                                   @".Where(p => p.Resource.Role == ""Software Consultant"" && p.Project.Status != ""Not Started"")" +
-                                   ".GroupBy(p => p.Project.ClientID)" +
-                                   ".OrderByDescending(p => p.Count())" +
-                                   ".Select(p => p.First()).Take(1); ";
+            ViewData["LINQ"] = "repository.ProjectResources.Include(p => p.Resource).Include(p => p.Project.Client).Include(p => p.Project)"
+                + ".Where(p => p.Resource.Role == \"Software Consultant\" && p.Project.Status != \"Not Started\")"
+                + ".GroupBy(p => p.Project.ClientID)"
+                + ".OrderByDescending(p => p.Count())"
+                + ".Take(1)"
+                + ".Select(p => new Q13Result { ClientName = p.First().Project.Client.ClientName, ResourceCount = p.Count() });";
             // 13.	List client with most number of resources working as Software Consultant in their ongoing projects? 
 
             var Quest13 = repository.ProjectResources
-                                  .Include(p => p.Resource)
-                                  .Include(p => p.Project.Client)
-                                  .Include(p => p.Project)
-                                  .Where(p => p.Resource.Role == "Software Consultant" && p.Project.Status != "Not Started")
-                                  .GroupBy(p => p.Project.ClientID)
-                                  .OrderByDescending(p => p.Count())
-                                  .Select(p => p.First()).Take(1);
+                                    .Include(p => p.Resource)
+                                    .Include(p => p.Project.Client)
+                                    .Include(p => p.Project)
+                                    .GroupBy(p => p.Project.ClientID)
+                                    .Where(p => p.First().Resource.Role == "Software Consultant" && p.First().Project.Status != "Not Started")
+                                    .OrderByDescending(p => p.Count())
+                                    .Take(1)
+                                    .Select(p => new Q13Result
+                                    {
+                                        ClientName = p.First().Project.Client.ClientName,
+                                        ResourceCount = p.Count()
+                                    });
 
             return View(Quest13.ToList());
         }// end of question 13
-
-
     }// end class
 }// end namespace

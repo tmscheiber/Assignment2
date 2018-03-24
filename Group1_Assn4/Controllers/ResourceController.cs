@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Group1_Assn4.Controllers
 {
+    public class Q12Result
+    {
+        public string ClientName { get; set; }
+        public int ResourceCount { get; set; }
+    }
     public class ResourceController : Controller
     {
         private IResourceRepository repository;

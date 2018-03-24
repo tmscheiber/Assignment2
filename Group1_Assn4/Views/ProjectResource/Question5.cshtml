@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model IEnumerable<Group1_Assn4.Controllers.Q5Result>
 
 @{
     ViewData["Title"] = "Question 5";
@@ -12,23 +12,23 @@
     <thead>
         <tr>
             <th>
-                Project Name
+                @Html.DisplayNameFor(model => model.ProjectName)
             </th>
             <th>
-                Resource Count
+                @Html.DisplayNameFor(model => model.ResourceCount)
             </th>
 
         </tr>
     </thead>
     <tbody>
-        @for (var idx = 0; idx < Model.Count; idx++)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @Model[idx].ProjectName
+                    @Html.DisplayFor(modelItem => item.ProjectName)
                 </td>
                 <td>
-                    @Model[idx].ResourceCount
+                    @Html.DisplayFor(modelItem => item.ResourceCount)
                 </td>
 
             </tr>

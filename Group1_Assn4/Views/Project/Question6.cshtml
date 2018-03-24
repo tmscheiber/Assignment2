@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Group1_Assn4.Models.Project>
+﻿@model IEnumerable<Group1_Assn4.Controllers.Q6Result>
 
 @{
     ViewData["Title"] = "Question 6";
@@ -12,7 +12,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Client.ClientName)
+                @Html.DisplayNameFor(model => model.ClientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectCount)
             </th>
 
         </tr>
@@ -22,7 +25,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Client.ClientName)
+                    @Html.DisplayFor(modelItem => item.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectCount)
                 </td>
 
             </tr>
