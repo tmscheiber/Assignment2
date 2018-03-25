@@ -46,7 +46,8 @@ namespace Group1_Assn4.Controllers
 
         public ViewResult Question12()
         {
-            ViewData["LINQ"] = @"repository.Resources^"
+            ViewData["LINQ"] = 
+                "repository.Resources^"
                 + "_.Where(p => p.Role ==  \"Lead\" || p.Role == \"Senior Manager\" || p.Role == \"Manager\")^"
                 + "_.OrderByDescending(p => p.ServiceYears);";
             //10.	List out resources with role as Lead or Manager or Senior Manager in descending order of number of years worked for the company?  

@@ -20,14 +20,6 @@ namespace Group1_Assn4.Controllers
         public int ProjectCount { get; set; }
     }
 
-    public class ProjectRevenue
-    {
-        public string ClientName { get; set; }
-        public int ProjectID { get; set; }
-        public string ProjectName { get; set; }
-        public decimal Revenue { get; set; }
-    }
-
     public class ProjectController : Controller
     {
         private IProjectRepository repository;
@@ -37,33 +29,34 @@ namespace Group1_Assn4.Controllers
         }
         public ViewResult List() => View(repository.Projects.Include(p => p.Client));
 
-        public ViewResult Question4()
-        {
-            ViewData["LINQ"] =
-                "var revenue = repository.Projects^"
-                + "_.Include(p => p.Client)^"
-                + "_.GroupBy(p => p.Client.ClientName)^"
-                + "_.Select(g => new Q4Result^"
-                + "_{^"
-                + "__ClientName = p.First().Client.ClientName,^"
-                + "__Revenue = p.Sum(s => s.Revenue)^"
-                + "_})^"
-                + "_.OrderBy(p.C)^"
-                + "_.Take(4);";
-            //4. Who are the 4 most profitable clients till date?
-            var ProjectRevenue = repository.Projects
-                               .Include(p => p.Client)
-                               .OrderBy(p => p.Client.ClientName)
-                               .GroupBy(p => p.Client.ClientName)
-                               .Select(p => new ProjectRevenue
-                               {
-                                   ClientName = p.First().Client.ClientName,
-                ProjectID = p.First().ProjectID,
-                ProjectName = p.First().ProjectName,
-                                   Revenue = p.Sum(s => s.Revenue)
-                               });
-            return View(ProjectRevenue.ToList());
-        }
+        //public ViewResult Question4()
+        //{
+        //    ViewData["LINQ"] =
+        //        "var revenue = repository.Projects^"
+        //        + "_.Include(p => p.Client)^"
+        //        + "_.GroupBy(p => p.Client.ClientName)^"
+        //        + "_.Select(g => new Q4Result^"
+        //        + "_{^"
+        //        + "__ClientName = p.First().Client.ClientName,^"
+        //        + "__Revenue = p.Sum(s => s.Revenue)^"
+        //        + "_})^"
+        //        + "_.OrderBy(p.C)^"
+        //        + "_.Take(4);";
+        //    //4. Who are the 4 most profitable clients till date?
+        //    var ProjectRevenue = repository.Projects
+        //                       .Include(p => p.Client)
+        //                       .OrderBy(p => p.Client.ClientName)
+        //                       .GroupBy(p => p.Client.ClientName)
+        //                       .Select(p => new ProjectRevenue
+        //                       {
+        //                           ClientName = p.First().Client.ClientName,
+        //        ProjectID = p.First().ProjectID,
+        //        ProjectName = p.First().ProjectName,
+        //                           Revenue = p.Sum(s => s.Revenue)
+        //                       });
+        //    //var ProjectCost = repository.
+        //    return View(ProjectRevenue.ToList());
+        //}
         public ViewResult Question6()
         {
             ViewData["LINQ"] = "repository.Projects^"

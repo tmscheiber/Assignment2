@@ -21,7 +21,11 @@ namespace Group1_Assn4.Controllers
         }
         public ViewResult Question11()
         {
-            ViewData["LINQ"] = @"repository.Clients.Where(p => p.Region == ""South"").GroupBy(p => p.ClientName).Select(p => p.First());";
+            ViewData["LINQ"] = 
+                "repository.Clients^"
+                + "_.Where(p => p.Region == \"South\")^"
+                + ".GroupBy(p => p.ClientName)^"
+                + ".Select(p => p.First());";
            // 8.List out all the clients along with details which are in South American states like Texas, Florida, etc?
 
           var Quest = repository.Clients.Where(p => p.Region == "South").GroupBy(p => p.ClientName).Select(p => p.First());

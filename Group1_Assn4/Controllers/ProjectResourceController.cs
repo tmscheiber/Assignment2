@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Group1_Assn4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Group1_Assn4.Controllers
 {
@@ -27,10 +28,30 @@ namespace Group1_Assn4.Controllers
         public decimal Cost { get; set; }
     }
 
+    public class ProjectRevenue
+    {
+        public string ClientName { get; set; }
+        public int ProjectID { get; set; }
+        public string ProjectName { get; set; }
+        public decimal Revenue { get; set; }
+    }
+
+    public class ProjectProfit
+    {
+        public string ClientName { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Cost { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Revenue { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Profit { get; set; }
+    }
+
     public class ProjectResourceController : Controller
     {
 
         private IProjectResourceRepository repository;
+
         public ProjectResourceController(IProjectResourceRepository repo)
         {
             repository = repo;
@@ -45,18 +66,121 @@ namespace Group1_Assn4.Controllers
 
         public IEnumerable<ProjectCost> ProjectCosts()
         {
-            var costs = repository.ProjectResources
-                                  .Include(p => p.Resource)
-                                  .OrderBy(p => p.ProjectID)
-                                  .GroupBy(p => p.ProjectID)
-                                  .Select(p => new ProjectCost
-                                  {
-                                      ProjectID = p.First().ProjectID,
-                                      Cost = p.First().Resource.HourlyRate * p.First().AllocatedHours
-                                  });
+            ViewData["COST"] =
+                "repository.ProjectResources^"
+                + "_.Include(p => p.Resource)^"
+                + "_.GroupBy(p => new { p.ProjectID, p.ProjectResourceID })^"
+                + "_.Select(p => new ProjectCost {^"
+                + "__ProjectID = p.First().ProjectID,^"
+                + "__Cost = p.First().Resource.HourlyRate * p.First().AllocatedHours^"
+                + "_});^";
+            IEnumerable<ProjectCost> costs = repository.ProjectResources
+                                                       .Include(p => p.Resource)
+                                                       .GroupBy(p => new
+                                                       {
+                                                           p.ProjectID, p.ProjectResourceID
+                                                       })
+                                                       .Select(p => new ProjectCost
+                                                       {
+                                                           ProjectID = p.First().ProjectID,
+                                                           Cost = p.First().Resource.HourlyRate * p.First().AllocatedHours
+                                                       });
             return costs;
         }
 
+        public IEnumerable<ProjectRevenue> ProjectRevenue()
+        {
+            ViewData["REVENUE"] =
+                "repository.ProjectResources^"
+                + "_.Include(p => p.Project.Client)^"
+                + "_.Include(p => p.Project)^"
+                + "_.GroupBy(p => new {^"
+                + "__p.Project.Client.ClientName,^"
+                + "__p.Project.ProjectID,^"
+                + "__p.Project.ProjectName^"
+                + "_})^"
+                + "_.Select(p => new ProjectRevenue {^ "
+                + "__ClientName = p.First().Project.Client.ClientName,^"
+                + "__ProjectID = p.First().Project.ProjectID,^"
+                + "__ProjectName = p.First().Project.ProjectName,^"
+                + "__Revenue = p.First().Project.Revenue^"
+                + "_});";
+            IEnumerable<ProjectRevenue> revenue = repository.ProjectResources
+                                                            .Include(p => p.Project.Client)
+                                                            .Include(p => p.Project)
+                                                            .GroupBy(p => new
+                                                            {
+                                                                p.Project.Client.ClientName,
+                                                                p.Project.ProjectID,
+                                                                p.Project.ProjectName
+                                                            })
+                                                            .Select(p => new ProjectRevenue
+                                                            {
+                                                                ClientName = p.First().Project.Client.ClientName,
+                                                                ProjectID = p.First().Project.ProjectID,
+                                                                ProjectName = p.First().Project.ProjectName,
+                                                                Revenue = p.First().Project.Revenue
+                                                            });
+
+            return revenue;
+        }
+
+        public ViewResult Question4()
+        {
+
+            //4. Who are the 4 most profitable clients till date?
+            ViewData["PROFIT"] =
+                "List<ProjectProfit> profits = new List<ProjectProfit>();^"
+                + "_ProjectProfit profit = new ProjectProfit();^"
+                + "_foreach (var project in revenue) {^ "
+                + "__if (project.ClientName != profit.ClientName) {^"
+                + "___profit = new ProjectProfit();^"
+                + "___profit.ClientName = project.ClientName;^"
+                + "___profit.Revenue = project.Revenue;^"
+                + "___profits.Add(profit);^ "
+                + "__}^ "
+                + "__else { profit.Revenue += project.Revenue; }^"
+                + "__foreach (ProjectCost cost in costs) {^ "
+                + "___if (project.ProjectID == cost.ProjectID) {^"
+                + "____profit.Cost += cost.Cost;^"
+                + "___}^"
+                + "__}^"
+                + "__profit.Profit = profit.Revenue - profit.Cost;^"
+                + "_}^"
+                + "_var FilteredProfits = profits.OrderByDescending(p => p.Profit).Take(4);^";
+
+            var revenue = ProjectRevenue();
+            var costs = ProjectCosts();
+
+            List<ProjectProfit> profits = new List<ProjectProfit>();
+            ProjectProfit profit = new ProjectProfit(); ;
+            foreach (var project in revenue)
+            {
+                if (project.ClientName != profit.ClientName)
+                {
+                    profit = new ProjectProfit();
+                    profit.ClientName = project.ClientName;
+                    profit.Revenue = project.Revenue;
+                    profits.Add(profit);
+                }
+                else
+                {
+                    profit.Revenue += project.Revenue;
+                }
+                foreach (ProjectCost cost in costs)
+                {
+                    if (project.ProjectID == cost.ProjectID)
+                    {
+                        profit.Cost += cost.Cost;
+                    }
+                }
+                profit.Profit = profit.Revenue - profit.Cost;
+
+            }
+            var FilteredProfits = profits.OrderByDescending(p => p.Profit).Take(4);
+
+            return View(FilteredProfits.ToList());
+        }
         public ViewResult Question5()
         {
             ViewData["LINQ"] =
@@ -82,27 +206,9 @@ namespace Group1_Assn4.Controllers
                                    ResourceCount = p.Count()
                                })
                                .Take(4);
-            
+
             return View(Q5.ToList());
         }// end of question 5
-
-        public ViewResult Question4()
-        {
-            ViewData["LINQ"] = "repository.ProjectResources^"
-                + "_.GroupBy(p => p.ResourceID)^"
-                + "_.Where(p=>p.Count() >1)^"
-                + "_.Select(p => p.First()).Count();";
-            //4.    How many people are working on more than one projects?  ?  
-
-            var Quest4 = repository.ProjectResources.GroupBy(p => p.ResourceID)
-                                   .Where(p => p.Count() > 1)
-                                   .Select(p => p.First())
-                                   .Count().ToString();
-
-            ViewData["Answer"] = Quest4.ToString() + " Resources";
-
-            return View(repository.ProjectResources);
-        }// end of question 4
 
         [HttpGet]
         public ViewResult Question7()
@@ -157,7 +263,11 @@ namespace Group1_Assn4.Controllers
 
         public ViewResult Question10()
         {
-            ViewData["LINQ"] = "repository.ProjectResources.Include(p=>p.Resource).GroupBy(p => p.ResourceID).Where(p => p.Count() > 10).Select(p => p.First());";
+            ViewData["LINQ"] = 
+                "repository.ProjectResources^"
+                + "_.Include(p=>p.Resource)^"
+                + "_.GroupBy(p => p.ResourceID).Where(p => p.Count() > 10)^"
+                + "_.Select(p => p.First());";
             //10.	Who are top 5 resources who have worked on more than 10 projects?   
 
             var Quest10 = repository.ProjectResources
@@ -172,18 +282,18 @@ namespace Group1_Assn4.Controllers
 
         public ViewResult Question13()
         {
-            ViewData["LINQ"] = "repository.ProjectxResourcesxx"
-                + "_.Include(p => p.Resource)xx"
-                + "_.Include(p => p.Project.Client)xx"
-                + "_.Include(p => p.Project)xx"
-                + "_.Where(p => p.Resource.Role == \"Software Consultant\" && p.Project.Status != \"Not Started\")xx"
-                + "_.GroupBy(p => p.Project.ClientID)xx"
-                + "_.OrderByDescending(p => p.Count())xx"
-                + "_.Take(1)xx"
-                + "_.Select(p => new Q13Resultxx"
-                + "_{xx"
-                + "__ClientName = p.First().Project.Client.ClientName,xx"
-                + "__ResourceCount = p.Count()xx"
+            ViewData["LINQ"] = "repository.ProjectxResources^"
+                + "_.Include(p => p.Resource)^"
+                + "_.Include(p => p.Project.Client)^"
+                + "_.Include(p => p.Project)^"
+                + "_.Where(p => p.Resource.Role == \"Software Consultant\" && p.Project.Status != \"Not Started\")^"
+                + "_.GroupBy(p => p.Project.ClientID)^"
+                + "_.OrderByDescending(p => p.Count())^"
+                + "_.Take(1)^"
+                + "_.Select(p => new Q13Result^"
+                + "_{^"
+                + "__ClientName = p.First().Project.Client.ClientName,^"
+                + "__ResourceCount = p.Count()^"
                 + "_});";
             // 13.	List client with most number of resources working as Software Consultant in their ongoing projects? 
 

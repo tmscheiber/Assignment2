@@ -5,7 +5,7 @@
 }
 <p>10.	Who are top 5 resources who have worked on more than 10 projects?   </p>
 <div class="row alert-info" style="padding:5px">
-    @ViewData["LINQ"]
+    @Html.Raw(@ViewData["LINQ"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
 </div>
 
 <table class="table">

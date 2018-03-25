@@ -1,30 +1,72 @@
-﻿@model IEnumerable<Group1_Assn4.Models.ProjectResource>
+﻿@model IEnumerable<Group1_Assn4.Controllers.ProjectProfit>
 
 @{
     ViewData["Title"] = "Question 4";
 }
-<p>4.	How many people are working on more than one projects?  </p>
+<p>4.	Who are the 4 most profitable clients till date?</p>
 <div class="row alert-info" style="padding:5px">
-    @Html.Raw(@ViewData["LINQ"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Revenue query and code
+            </th>
+            <th>
+                Cost query and code
+            </th>
+            <th>
+                Profit query and code
+            </th>
+        </tr>
+        </thead>
+        <tr>
+            <td>
+                @Html.Raw(@ViewData["REVENUE"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
+            </td>
+            <td>
+                @Html.Raw(@ViewData["COST"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
+            </td>
+            <td>
+                @Html.Raw(@ViewData["PROFIT"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
+            </td>
+        </tr>
+    </table>
 </div>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-               Count
+               @Html.DisplayNameFor(model => model.ClientName)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Revenue)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Profit)
             </th>
 
         </tr>
     </thead>
-    <tbody>
-       
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>
-                    @ViewData["Answer"]
+                    @Html.DisplayFor(modelItem => item.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Revenue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profit)
                 </td>
 
             </tr>
-       
-    </tbody>
-</table>
+        }
+/table>
