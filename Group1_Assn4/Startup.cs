@@ -54,17 +54,10 @@ namespace Group1_Assn4
                     //routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
                 });
 
-
-                //ApplicationDbContext context = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
-                //context.Clients.RemoveRange(context.Clients);
-                //context.Resources.RemoveRange(context.Resources);
-                //context.Projects.RemoveRange(context.Projects);
-                //context.ProjectResources.RemoveRange(context.ProjectResources);
-                //context.Database.Migrate();
-                //ClientSeedData.EnsurePopulated(app);
-                //ResourceSeedData.EnsurePopulated(app);
-                //ProjectSeedData.EnsurePopulated(app);
-                //ProjectResourceSeedData.EnsurePopulated(app);
+                ClientSeedData.EnsurePopulated(app);
+                ResourceSeedData.EnsurePopulated(app);
+                ProjectSeedData.EnsurePopulated(app);
+                ProjectResourceSeedData.EnsurePopulated(app);
 
             }//end if
         }// end Configure

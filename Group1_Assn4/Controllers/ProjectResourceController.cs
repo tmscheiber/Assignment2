@@ -16,6 +16,11 @@ namespace Group1_Assn4.Controllers
         public int ResourceCount { get; set; }
     }
 
+    public class Q10Result
+    {
+        public string ResourceName { get; set; }
+        public int ProjectCount { get; set; }
+    }
     public class Q13Result
     {
         public string ClientName { get; set; }
@@ -38,6 +43,7 @@ namespace Group1_Assn4.Controllers
 
     public class ProjectProfit
     {
+        public int ProjectID { get; set; }
         public string ClientName { get; set; }
         [DataType(DataType.Currency)]
         public decimal Cost { get; set; }
@@ -178,7 +184,6 @@ namespace Group1_Assn4.Controllers
 
             }
             var FilteredProfits = profits.OrderByDescending(p => p.Profit).Take(4);
-
             return View(FilteredProfits.ToList());
         }
         public ViewResult Question5()
@@ -263,18 +268,26 @@ namespace Group1_Assn4.Controllers
 
         public ViewResult Question10()
         {
-            ViewData["LINQ"] = 
+            ViewData["LINQ"] =
                 "repository.ProjectResources^"
                 + "_.Include(p=>p.Resource)^"
-                + "_.GroupBy(p => p.ResourceID).Where(p => p.Count() > 10)^"
-                + "_.Select(p => p.First());";
-            //10.	Who are top 5 resources who have worked on more than 10 projects?   
+                + "_.GroupBy(p => p.ResourceID).Where(p => p.Count() > 6)^"
+                + "_.Select(p => new Q10Result^"
+                + "_{^"                
+                + "__ResourceName = p.First().Resource.ResourceName,^"
+                + "__ProjectCount = p.Count()^"
+                + "_});";
+            ViewData["Question"] = "10.	Who are top 5 resources who have worked on more than 6 projects?";
 
             var Quest10 = repository.ProjectResources
-                                  .Include(p => p.Resource)
-                                  .GroupBy(p => p.ResourceID)
-                                  .Where(p => p.Count() > 10)
-                                  .Select(p => p.First());
+                                    .Include(p => p.Resource)
+                                    .GroupBy(p => p.ResourceID)
+                                    .Where(p => p.Count() > 6)
+                                    .Select(p => new Q10Result
+                                    {
+                                        ResourceName = p.First().Resource.ResourceName,
+                                        ProjectCount = p.Count()
+                                    });
 
             return View(Quest10.ToList());
         }// end of question 10

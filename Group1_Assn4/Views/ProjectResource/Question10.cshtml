@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Group1_Assn4.Models.ProjectResource>
+﻿@model IEnumerable<Group1_Assn4.Controllers.Q10Result>
 
 @{
     ViewData["Title"] = "Question 10";
 }
-<p>10.	Who are top 5 resources who have worked on more than 10 projects?   </p>
+<p>@ViewData["Question"]</p>
 <div class="row alert-info" style="padding:5px">
     @Html.Raw(@ViewData["LINQ"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
 </div>
@@ -12,7 +12,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Resource.ResourceName)
+                @Html.DisplayNameFor(model => model.ResourceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectCount)
             </th>
 
         </tr>
@@ -22,7 +25,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Resource.ResourceName))
+                    @Html.DisplayFor(modelItem => item.ResourceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectCount)
                 </td>
 
             </tr>
