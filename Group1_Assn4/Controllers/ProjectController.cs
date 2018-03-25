@@ -20,6 +20,14 @@ namespace Group1_Assn4.Controllers
         public int ProjectCount { get; set; }
     }
 
+    public class ProjectRevenue
+    {
+        public string ClientName { get; set; }
+        public int ProjectID { get; set; }
+        public string ProjectName { get; set; }
+        public decimal Revenue { get; set; }
+    }
+
     public class ProjectController : Controller
     {
         private IProjectRepository repository;
@@ -32,38 +40,42 @@ namespace Group1_Assn4.Controllers
         public ViewResult Question4()
         {
             ViewData["LINQ"] =
-                "var Q4 = repository.Projects"
-                + ".Include(p => p.Client)"
-                + ".GroupBy(p => p.Client.ClientName)"
-                + ".Select("
-                + "g => new Q4Result"
-                + "{ClientName = g.First().Client.ClientName,"
-                + "Revenue = g.Sum(s => s.Revenue)"
-                + "}).OrderBy(g => g.Revenue).Take(4);";
+                "var revenue = repository.Projects^"
+                + "_.Include(p => p.Client)^"
+                + "_.GroupBy(p => p.Client.ClientName)^"
+                + "_.Select(g => new Q4Result^"
+                + "_{^"
+                + "__ClientName = p.First().Client.ClientName,^"
+                + "__Revenue = p.Sum(s => s.Revenue)^"
+                + "_})^"
+                + "_.OrderBy(p.C)^"
+                + "_.Take(4);";
             //4. Who are the 4 most profitable clients till date?
-            var Q4 = repository.Projects
+            var ProjectRevenue = repository.Projects
                                .Include(p => p.Client)
+                               .OrderBy(p => p.Client.ClientName)
                                .GroupBy(p => p.Client.ClientName)
-                               .Select(
-                                       g => new Q4Result
-                                       {
-                                           ClientName = g.First().Client.ClientName,
-                                           Revenue = g.Sum(s => s.Revenue)
-                                       }).OrderBy(g => g.Revenue)
-                               .Take(4);
-
-            return View(Q4.ToList());
+                               .Select(p => new ProjectRevenue
+                               {
+                                   ClientName = p.First().Client.ClientName,
+                ProjectID = p.First().ProjectID,
+                ProjectName = p.First().ProjectName,
+                                   Revenue = p.Sum(s => s.Revenue)
+                               });
+            return View(ProjectRevenue.ToList());
         }
         public ViewResult Question6()
         {
-            ViewData["LINQ"] = "repository.Projects"
-                + ".Include(p=>p.Client).GroupBy(p => p.Client.ClientName)"
-                + ".Where(p => p.KickOffDate.Year < DateTime.Today.Year && p.DeliveryDate.Year > DateTime.Today.Year)"
-                + ".OrderByDescending(p=>p.Count())"
-                + ".Take(3)"
-                + ".Select(g => new Q6Result {"
-                + "ClientName = g.First().Client.ClientName,"
-                + "ProjectCount = g.Count() });";
+            ViewData["LINQ"] = "repository.Projects^"
+                + "_.Include(p=>p.Client).GroupBy(p => p.Client.ClientName)^"
+                + "_.Where(p => p.KickOffDate.Year < DateTime.Today.Year && p.DeliveryDate.Year > DateTime.Today.Year)^"
+                + "_.OrderByDescending(p=>p.Count())^"
+                + "_.Take(3)^"
+                + "_.Select(g => new Q6Result^"
+                + "_{"
+                + "__ClientName = g.First().Client.ClientName,^"
+                + "__ProjectCount = g.Count()^"
+                + "_});";
             //6.	Which are the top 3 clients with most number of projects this year? 
 
             var Quest6 = repository.Projects.Include(p => p.Client)
@@ -82,14 +94,3 @@ namespace Group1_Assn4.Controllers
 
     }// end class
 }// end namespace
-
-
-
-//SELECT Top(4)   dbo.Clients.ClientName, (SUM(dbo.Projects.Revenue)   - SUM(dbo.ProjectResources.AllocatedHours* dbo.Resources.HourlyRate)) as PROFIT
-//FROM            dbo.Clients INNER JOIN
-//                    dbo.Projects ON dbo.Clients.ClientID = dbo.Projects.ClientID INNER JOIN
-//                    dbo.ProjectResources ON dbo.Projects.ProjectID = dbo.ProjectResources.ProjectID INNER JOIN
-//                    dbo.Resources ON dbo.ProjectResources.ResourceID = dbo.Resources.ResourceID
-//GROUP BY dbo.Clients.ClientName , dbo.Projects.KickOffDate
-//HAVING dbo.Projects.KickOffDate<getdate()
-//ORDER BY(SUM(dbo.Projects.Revenue)   - SUM(dbo.ProjectResources.AllocatedHours* dbo.Resources.HourlyRate))  DESC

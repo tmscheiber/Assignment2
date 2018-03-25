@@ -5,7 +5,7 @@
 }
 <p>13.	List client with most number of resources working as Software Consultant in their ongoing projects?  </p>
 <div class="row alert-info" style="padding:5px">
-    @ViewData["LINQ"]
+    @Html.Raw(@ViewData["LINQ"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
 </div>
 
 <table class="table">

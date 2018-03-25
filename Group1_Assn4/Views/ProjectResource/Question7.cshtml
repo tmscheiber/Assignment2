@@ -5,7 +5,7 @@
 }
 <p>7.	How many people are working on more than one projects?</p>
 <div class="row alert-info" style="padding:5px">
-    @ViewData["LINQ"]
+    @Html.Raw(@ViewData["LINQ"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
 </div>
 <div>
     <p/>

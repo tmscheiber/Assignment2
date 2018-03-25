@@ -5,7 +5,7 @@
 }
 <p>5.	Which are the 4 projects which used the most number of people (resources)? </p>
 <div class="row alert-info" style="padding:5px">
-    @ViewData["LINQ"]
+    @Html.Raw(@ViewData["LINQ"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
 </div>
 
 <table class="table">

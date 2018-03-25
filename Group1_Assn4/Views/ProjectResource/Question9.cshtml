@@ -5,7 +5,7 @@
 }
 <p>9. List all the ongoing projects names along with their expected delivery date , resource allocations and client names? </p>
 <div class="row alert-info" style="padding:5px">
-    @ViewData["LINQ"]
+    @Html.Raw(@ViewData["LINQ"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
 </div>
 
 <table class="table">

@@ -5,7 +5,7 @@
 }
 <p>6.	Which are the top 3 clients with most number of projects this year? </p>
 <div class="row alert-info" style="padding:5px">
-    @ViewData["LINQ"]
+    @Html.Raw(@ViewData["LINQ"].ToString().Replace("^", "<br/>").Replace("_", "&emsp;"))
 </div>
 
 <table class="table">
