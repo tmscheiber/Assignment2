@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SportsStore.Models
 {
-    public class FakeProductRepository //: IProductRepository
+    public class FakeProductRepository : IProductRepository
     {
         public FakeProductRepository()
         {
@@ -16,5 +16,9 @@ namespace SportsStore.Models
             new Product { Name = "Surf Board", Price = 179 },
             new Product { Name = "Running Shoes", Price = 95 }
         }.AsQueryable<Product>();
+
+        public void SaveProduct(Product product){}
+
+        public Product DeleteProduct(int ProductID) { return null; }
     }
 }

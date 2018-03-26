@@ -32,7 +32,7 @@ namespace SportsStore
 
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddTransient<IProductRepository, FakeProductRepository>();
+            services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
@@ -74,8 +74,9 @@ namespace SportsStore
                 routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
 
             });
-            //SeedData.EnsurePopulated(app);
+            SeedData.EnsurePopulated(app.ApplicationServices);
             //IdentitySeedData.EnsurePopulated(app);
+            SeedData.EnsureOrdersPopulated(app.ApplicationServices);
         }
     }
 }

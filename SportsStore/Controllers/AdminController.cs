@@ -47,6 +47,7 @@ namespace SportsStore.Controllers
         public IActionResult SeedDatabase()
         {
             SeedData.EnsurePopulated(HttpContext.RequestServices);
+            SeedData.EnsureOrdersPopulated(HttpContext.RequestServices);
             return RedirectToAction(nameof(Index));
         }
 
