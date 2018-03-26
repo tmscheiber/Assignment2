@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Collections;
 
 
 namespace SportsStore.Models
@@ -13,21 +14,23 @@ namespace SportsStore.Models
         public static void EnsureOrdersPopulated(IServiceProvider services)
         {
             ApplicationDbContext context = services.GetRequiredService<ApplicationDbContext>();
-            int orderCount = context.Orders.Where(p => (p.Shipped == true)).Count();
-            IQueryable<Product> products = context.Products.OrderBy(p => p.Price);
-            int productCount = products.Count();
-            List<ProductProbability> allCategoryProducts = productProbabilityTable(context, null, true);
+            int shippedOrders = context.Orders.Where(p => (p.Shipped == true)).Count();
 
-            if (orderCount < 100)
+            Dictionary<string, List<ProductProbability>> productLists = populateProductLists(context);
+
+            if (shippedOrders < 100)
             {
                 Random rand = new Random();
 
                 for (int idx = 0; idx < 1000; idx++)
                 {
+                    List<ProductProbability> allCategoryProducts = null;
                     List<ProductProbability> inCategoryProducts = null;
                     List<ProductProbability> nonCategoryProducts = null;
                     List<CartLine> orderLines = new List<CartLine>();
 
+                    bool gotAll = productLists.TryGetValue("AllCategories", out allCategoryProducts);
+                    allCategoryProducts = new List<ProductProbability>(allCategoryProducts);
                     Order newOrder = new Order
                     {
                         Shipped = true,
@@ -43,7 +46,8 @@ namespace SportsStore.Models
                     double probability = 1;
                     for (int ordCount = 0; ordCount < 5; ordCount++)
                     {
-                        if (rand.NextDouble() < probability)
+                        double nextRandom = rand.NextDouble();
+                        if (nextRandom < probability)
                         {
                             Product nextProduct = getNextProduct(allCategoryProducts,
                                                                  inCategoryProducts,
@@ -52,12 +56,14 @@ namespace SportsStore.Models
                             orderLines.Add(new CartLine
                             {
                                 Product = nextProduct,
-                                Quantity = rand.Next(1, 3)
+                                Quantity = rand.Next(1, 4)
                             });
                             if (null == inCategoryProducts)
                             {
-                                inCategoryProducts = productProbabilityTable(context, nextProduct.Category, true);
-                                nonCategoryProducts = productProbabilityTable(context, nextProduct.Category, false);
+                                bool gotCategory = productLists.TryGetValue(nextProduct.Category, out inCategoryProducts);
+                                inCategoryProducts = new List<ProductProbability>(inCategoryProducts);
+                                bool gotNotCategory = productLists.TryGetValue("Not " + nextProduct.Category, out nonCategoryProducts);
+                                nonCategoryProducts = new List<ProductProbability>(nonCategoryProducts);
                             }
                         }
                         else
@@ -75,6 +81,29 @@ namespace SportsStore.Models
 
         }
 
+        private static Dictionary<string, List<ProductProbability>> populateProductLists(ApplicationDbContext context)
+        {
+            Dictionary<string, List<ProductProbability>> productLists = new Dictionary<string, List<ProductProbability>>();
+
+            List<ProductProbability> allProducts = productProbabilityTable(context.Products.OrderBy(p => p.Price).ToList());
+            List<string> usedCategories = new List<string>();
+
+            productLists.Add("AllCategories", allProducts);
+            foreach (ProductProbability productProbability in allProducts)
+            {
+                Product product = productProbability.Product;
+                if (!usedCategories.Contains(product.Category))
+                {
+                    productLists.Add(product.Category
+                                     , productProbabilityTable(context.Products.Where(p => (p.Category == product.Category)).OrderBy(p => p.Price).ToList()));
+                    productLists.Add("Not " + product.Category
+                                     , productProbabilityTable(context.Products.Where(p => (p.Category != product.Category)).OrderBy(p => p.Price).ToList()));
+                    usedCategories.Add(product.Category);
+                }
+            }
+            return productLists;
+        }
+
         /*
          * used to store products with their cumulative probability
          * */
@@ -90,40 +119,39 @@ namespace SportsStore.Models
          * Creates a list of ProductProbability structs to be used to assess
          *   likelhood of a particular product showing up in the next order slot
          */
-        private static List<ProductProbability> productProbabilityTable(ApplicationDbContext context
-                                                                        , string forCategory
-                                                                        , bool includeCategory)
+        private static List<ProductProbability> productProbabilityTable(List<Product> products)
         {
-            // get the product list
-            IQueryable<Product> products = null;
-            if (null == forCategory)
+            int currentPower = (products.Count() / 3) + 1;
+            int currentIdx;
+            double opportunities = 0;
+            for (currentIdx = products.Count(); currentIdx > 0; currentIdx--)
             {
-                products = context.Products.OrderBy(p => p.Price);
-            }
-            else if (includeCategory)
-            {
-                products = context.Products.Where(p => (p.Category == forCategory)).OrderBy(p => p.Price);
-            }
-            else
-            {
-                products = context.Products.Where(p => p.Category != forCategory).OrderBy(p => p.Price);
+                opportunities += Math.Pow(2.0, currentPower);
+                if ((currentIdx%3 == 0) && (currentPower > 1)) 
+                {
+                    currentPower--;
+                }
             }
 
             // assign cumulative probabilities to the product list
             List<ProductProbability> probabilityList = new List<ProductProbability>(products.Count());
-            double opportunities = Math.Pow(2.0, products.Count() + 1) - 2;
             double cumulativeProbability = 0;
-            int currentIndex = 0;
+            currentIdx = products.Count();
+            currentPower = (products.Count() / 3) + 1;
             foreach (Product product in products)
             {
-                cumulativeProbability = cumulativeProbability
-                    + (Math.Pow(2, products.Count() - currentIndex) / opportunities);
+                cumulativeProbability += (Math.Pow(2.0, currentPower) / opportunities);
                 probabilityList.Add(new ProductProbability
                 {
                     Product = product,
                     CumulativeProbability = cumulativeProbability
                 });
-                currentIndex++;
+
+                if ((currentIdx % 3 == 0) && (currentPower > 1))
+                {
+                    currentPower--;
+                }
+                currentIdx--;
             }
             return probabilityList;
         }
@@ -156,7 +184,7 @@ namespace SportsStore.Models
             {
                 nextProduct = chooseProduct(inCategory, true, rand);
             }
-            else /* last 10% are from the non-category product */
+            else /* last 10% are from the other categoriest */
             {
                 nextProduct = chooseProduct(nonCategory, true, rand);
             }
