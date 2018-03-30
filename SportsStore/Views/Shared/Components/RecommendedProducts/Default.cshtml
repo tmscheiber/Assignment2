@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Product>
+
+
+@foreach (var p in Model)
+{
+    <div class="col-sm-3" style="padding:10px;">
+        <div class="card" style="padding:5px;">
+            <div class="card-img-top" style="background-color:gray; height:100px; text-align:center;">
+                <i class="fa fa-archive fa-3x" style="padding-top:10px; color:white"></i>
+            </div>
+            <div class="card-body" style="padding:10px; min-height:200px;">
+                <h5 class="card-title">@p.Name</h5>
+                <p class="card-text">@p.Description</p>
+                <p class="card-text">@p.Price.ToString("c")</p>
+                <a href="@Url.Action("AddToCart", "Cart", new {productId = p.ProductID, returnUrl = ViewData["ReturnURL"].ToString() })" class="btn btn-primary btn-sm">Add to Cart</a>
+            </div>
+        </div>
+
+    </div> 
+}
