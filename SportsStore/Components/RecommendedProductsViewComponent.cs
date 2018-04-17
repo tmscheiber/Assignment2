@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using SportsStore.Models;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace SportsStore.Components
 {

@@ -50,11 +50,11 @@
 </div>
 <br />
 @{
- if (0 < @Model.NewProductID)
- {
-    <p style="font-size:14px;">Others who are interested in <strong>@Model.Cart.Lines.Where(p => p.Product.ProductID == Model.NewProductID).Select(p => p.Product.Name).FirstOrDefault()</strong>, also were interested in these item.</p>
-    <div class="row">
-        @await Component.InvokeAsync("RecommendedProducts", new { productId = Model.NewProductID, returnUrl = Model.ReturnUrl })
-    </div>
+    if (@Model.NewProductID > 0)
+    {
+        <p style="font-size:14px;">Others who are interested in <strong>@Model.Cart.Lines.Where(p => p.Product.ProductID == Model.NewProductID).Select(p => p.Product.Name).FirstOrDefault()</strong>, also were interested in these item.</p>
+        <div class="row">
+            @await Component.InvokeAsync("RecommendedProducts", new { productId = Model.NewProductID, returnUrl = Model.ReturnUrl })
+        </div>
     }
 }
