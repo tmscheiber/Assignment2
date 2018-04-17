@@ -31,6 +31,7 @@
         <None Remove="bootstrap.4.0.0\bootstrap.4.0.0.nupkg" />
         <None Remove="FontAwesome.4.7.0\Content\Content\font-awesome.css" />
         <None Remove="popper.js.1.12.9\content\Scripts\esm\popper.js" />
+        <None Remove=".SportsStore.db" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="wwwroot\" />

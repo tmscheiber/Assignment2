@@ -75,8 +75,8 @@ namespace SportsStore
                 routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
 
             });
-            //SeedData.EnsurePopulated(app.ApplicationServices);
-            //SeedData.EnsureOrdersPopulated(app.ApplicationServices);
+            SeedData.EnsurePopulated(app.ApplicationServices);
+            SeedData.EnsureOrdersPopulated(app.ApplicationServices);
         }
     }
 }
